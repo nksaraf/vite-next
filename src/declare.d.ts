@@ -1,17 +1,8 @@
 declare module '@!virtual-modules/*'
 interface Window {
-  __NEXT_DATA__: {
-    routePath: string
-  }
-}
-
-interface ImportMeta {
-  env: {
-    DEV: string
-    MODE: string
-    BASE_URL: string
-    SSR: string
-  }
+    __NEXT_DATA__: {
+        routePath: string
+    }
 }
 
 // import React from 'react'
