@@ -1,8 +1,9 @@
-declare module '@!virtual-modules/*'
+declare module "@!virtual-modules/*";
 interface Window {
-    __NEXT_DATA__: {
-        routePath: string
-    }
+  __NEXT_DATA__: {
+    routePath: string;
+    queryClient: any;
+  };
 }
 
 // import React from 'react'

@@ -11,29 +11,33 @@ import { Page, PageRoutes } from "./router";
 
 import pages from "@!virtual-modules/pages";
 import { HelmetProvider } from "react-helmet-async";
+import { Hydrate } from "react-query/hydration";
 
 if (!window.__NEXT_DATA__?.routePath) {
   throw new Error(`window.__NEXT_DATA__?.routePath should be defined`);
 }
 
 const routePath = window.__NEXT_DATA__.routePath;
+const queryCache = window.__NEXT_DATA__.queryClient;
 
 function BrowserRouter({ initialContext: { queryClient } }: any) {
   return (
     <QueryClientProvider client={queryClient}>
-      <BrowserReactRouter timeoutMs={5000}>
-        <HelmetProvider>
-          <Suspense fallback={<div>Loading</div>}>
-            <ErrorBoundary
-              fallbackRender={(props) => <div>{props.error.message}</div>}
-            >
-              <PageRoutes>
-                <Page />
-              </PageRoutes>
-            </ErrorBoundary>
-          </Suspense>
-        </HelmetProvider>
-      </BrowserReactRouter>
+      <Hydrate state={queryCache}>
+        <BrowserReactRouter timeoutMs={5000}>
+          <HelmetProvider>
+            <Suspense fallback={<div>Loading</div>}>
+              <ErrorBoundary
+                fallbackRender={(props) => <div>{props.error.message}</div>}
+              >
+                <PageRoutes>
+                  <Page />
+                </PageRoutes>
+              </ErrorBoundary>
+            </Suspense>
+          </HelmetProvider>
+        </BrowserReactRouter>
+      </Hydrate>
     </QueryClientProvider>
   );
 }
