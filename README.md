@@ -1,9 +1,37 @@
 <p align="center">
-  <img src="/logo.svg" width="320" /><h1  align="center"><code margin="0">vext</code></h1><p align="center"><i>A bunch of simple but magical React hooks to work with GraphQL.<br>powered by <code><a href="https://github.com/tannerlinsley/react-query">react-query</a></code>, inspired by <code><a href="https://github.com/facebook/relay">relay</a></code> and <code><a href="https://github.com/FormidableLabs/urql">urql</a></code></i></p>
+  <img src="/logo.svg" width="320" /><h1  align="center"><code margin="0">vext</code></h1><p align="center"><i>Full stack, cross-platform React framework built on <code>vite</code></i></p>
 </p>
 
 NextJS alternative built on top of Vite, React Router, React Query
 
-* File-system based routing
+* File-system based routing (similar to Next JS)
+
+```
+  /api
+    /notify.tsx
+  /app
+    /pages
+      /_layout.tsx
+      /index.tsx
+      /post
+        /[post].tsx
+      /user
+        /[id]
+          /posts.tsx
+          /index.tsx
+      /users.tsx
+      /admin
+        /_layout.tsx
+        /[...page].tsx
+      /_document.tsx
+  /db
+    /index.tsx
+```
+
+```typescript
+
+
+
+```
 * SSR (with Suspense support)
 * Prerendering and SSG
