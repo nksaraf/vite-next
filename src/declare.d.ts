@@ -1,4 +1,15 @@
 declare module "@!virtual-modules/*";
+declare module "@!virtual-modules/pages" {
+  export interface Page {
+    name: string;
+    path: string;
+    component: () => any;
+    props: boolean;
+  }
+
+  export const pages: Page[];
+  export default pages;
+}
 interface Window {
   __NEXT_DATA__: {
     routePath: string;

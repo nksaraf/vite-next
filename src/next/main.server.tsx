@@ -8,13 +8,15 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { getStyleTag, shim, virtualSheet } from "twind/shim/server";
 import { create } from "twind";
 import { dehydrate, Hydrate } from "react-query/hydration";
-import { Page, PageRoutes } from "./router";
+import { CurrentPage, PageRoutes } from "./router";
 import { ErrorBoundary } from "react-error-boundary";
-
+import config from "../../twind.config";
+import { log } from "../logger";
 const sheet = virtualSheet();
 
 const instance = create({
   sheet,
+  ...config,
 });
 
 function StaticRouter({ initialContext: { helmet, queryClient, url } }: any) {
@@ -28,7 +30,7 @@ function StaticRouter({ initialContext: { helmet, queryClient, url } }: any) {
                 fallbackRender={(props) => <div>{props.error.message}</div>}
               >
                 <PageRoutes>
-                  <Page />
+                  <CurrentPage />
                 </PageRoutes>
               </ErrorBoundary>
             </Suspense>
@@ -106,7 +108,7 @@ export async function renderToString(
 
     return html;
   } catch (e) {
-    console.log(e);
+    log.error(e);
   }
 
   return "";

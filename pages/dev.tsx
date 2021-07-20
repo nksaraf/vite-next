@@ -1,25 +1,24 @@
 import dayjs from "dayjs";
 import React from "react";
+import { useState } from "react";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
+import { Preview } from "../app/Preview";
 import { delay } from "../src/next/router";
 
 export default function Hello() {
   const [state, setState] = React.useState(0);
-  const query = useQuery(
-    ["data", "b"],
-    async () => {
-      await delay(2000);
-      return { a: dayjs().format("HH:MM:ss") };
-    },
-    { suspense: true }
-  );
+  const [responseSize, setResponseSize] = useState({ width: 700, height: 400 });
   return (
     <div>
       Helkjjhghjgghgvjhgfjlj {state}{" "}
       <button onClick={() => setState((s) => s + 1)}>+1</button>
-      {query.data?.a}
-      <Link to="/other">Other</Link>
+      <div className="relative w-120 h-120">
+        <Preview
+          responsiveSize={responseSize}
+          onChangeResponsiveSize={setResponseSize}
+        />
+      </div>
     </div>
   );
 }

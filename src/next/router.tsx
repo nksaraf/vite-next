@@ -1,19 +1,15 @@
 import React, { Suspense } from "react";
-import { Routes, Route } from "react-router";
+import { Routes, Route, matchRoutes } from "react-router";
 import { useLocation } from "react-router";
 import { useQuery } from "react-query";
 import pages from "@!virtual-modules/pages";
 
-export function Page({}: {}) {
-  const Component = usePageComponent();
-  // const Component = component || initialComponent;
-  // const props = component.pageProps || pageProps;
+export function CurrentPage() {
+  const Component = useCurrentPage();
 
   if (!Component) {
     return null;
   }
-
-  // return <App Component={Component} pageProps={props} />;
 
   return (
     <Suspense fallback={<div>Loading</div>}>
@@ -22,21 +18,32 @@ export function Page({}: {}) {
   );
 }
 
-console.log(pages);
-
-function usePageComponent() {
-  console.log(pages);
+function useCurrentPage() {
   const url = useLocation();
   let query = useQuery(
     ["@!virtual-modules/pages", url.pathname],
     async () => {
       try {
-        let pageModule = await pages
-          .find((p: { path: string }) => p.path === url.pathname)
-          .component();
+        let matchedRoutes = matchRoutes(
+          pages.map((page) => ({
+            element: <div></div>,
+            caseSensitive: true,
+            ...page,
+          })),
+          url
+        );
+
+        if (!matchedRoutes || matchRoutes.length === 0) {
+          throw "Route not found";
+        }
+
+        console.log("matchedRoutes", matchedRoutes);
+        let p = delay(1000);
+        let pageModule = await matchedRoutes[0].route.component();
+        await p;
         return pageModule;
       } catch (e) {
-        console.log(e);
+        console.error(e);
         throw e;
       }
     },
